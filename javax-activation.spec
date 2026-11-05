@@ -18,7 +18,13 @@ JavaBeans Activation Framework 1.2. The packages are still
 javax.activation. Jakarta Activation 2.0 renamed them.
 
 %prep
-%setup -q -c
+%setup -q -c -T
+# The builders' rpmuncompress passes a sources jar to tar.
+python - %{SOURCE0} <<'PY'
+import sys
+import zipfile
+zipfile.ZipFile(sys.argv[1]).extractall(".")
+PY
 mkdir -p src/main/java src/main/resources/META-INF
 mv javax com src/main/java/
 mv META-INF/mailcap.default META-INF/mimetypes.default src/main/resources/META-INF/
